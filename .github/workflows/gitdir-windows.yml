@@ -1,0 +1,39 @@
+name: gitdir native Windows validation
+
+on:
+  push:
+    branches: [validation/gitdir-windows]
+
+permissions:
+  contents: read
+
+jobs:
+  native:
+    runs-on: windows-2022
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: driver
+      - uses: actions/checkout@v4
+        with:
+          ref: 42a89d7cc9374a19e72fa57011e5fe3a99c7b3bf
+          fetch-depth: 0
+          path: baseline
+      - uses: actions/checkout@v4
+        with:
+          ref: c9eeb93e4f93d7109195904972338f27a6b3a4db
+          fetch-depth: 0
+          path: fixed
+      - name: Set up Visual Studio shell
+        uses: egor-tensin/vs-shell@v2
+        with:
+          arch: x64
+      - name: Validate exact base and submitted source
+        run: python driver/validation/verify_gitdir_windows.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gitdir-windows
+          path: evidence/
+          if-no-files-found: error
