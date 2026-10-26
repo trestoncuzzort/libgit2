@@ -67,6 +67,7 @@ def build(label, source):
     builddir = source / "build-native"
     args = ["cmake", "-S", source, "-B", builddir, "-G", "Ninja",
             "-DCMAKE_BUILD_TYPE=Debug", "-DBUILD_SHARED_LIBS=ON", "-DBUILD_TESTS=ON",
+            "-DCMAKE_JOB_POOLS=native_link=1", "-DCMAKE_JOB_POOL_LINK=native_link",
             "-DENABLE_WERROR=ON", "-DUSE_HTTPS=Schannel", "-DUSE_SSH=exec",
             "-DUSE_BUNDLED_ZLIB=ON", "-DREGEX_BACKEND=builtin", "-DDEBUG_LEAK_CHECKER=win32"]
     result = run(label + "-configure", args)

@@ -34,6 +34,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: gitdir-windows
+          name: gitdir-windows-serialized-links
           path: evidence/
           if-no-files-found: error
